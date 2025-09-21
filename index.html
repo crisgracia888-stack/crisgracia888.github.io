@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Flores Amarillas</title>
+<style>
+  body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: "Comic Sans MS", cursive, sans-serif;
+    overflow: hidden;
+    background: linear-gradient(to bottom, #FFA500, #FF8C00);
+  }
+
+  /* Pantalla de bienvenida */
+  #welcomeScreen {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, #FFA500, #FF8C00);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+    color: white;
+    text-align: center;
+  }
+
+  #welcomeScreen h1 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 5px #0003;
+  }
+
+  #enterBtn {
+    padding: 15px 30px;
+    font-size: 1.2em;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    background: #FFD700;
+    color: black;
+    font-weight: bold;
+    box-shadow: 2px 2px 10px #0003;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  #enterBtn:hover {
+    transform: scale(1.05);
+    box-shadow: 2px 2px 20px #0005;
+  }
+
+  /* Contenedor principal de animación */
+  .container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    text-align: center;
+    display: none;
+  }
+
+  .title {
+    font-size: 2em;
+    font-weight: bold;
+    margin-top: 20px;
+    text-shadow: 1px 1px 2px #fff3;
+    position: relative;
+    z-index: 5;
+  }
+
+  .subtitle {
+    font-size: 1.3em;
+    margin-bottom: 15px;
+    position: relative;
+    z-index: 5;
+  }
+
+  .bouquet {
+    width: 400px;
+    margin-top: 20px;
+    animation: sway 5s ease-in-out infinite;
+    position: relative;
+    z-index: 5;
+  }
+
+  @keyframes sway {
+    0% { transform: rotate(-2deg); }
+    50% { transform: rotate(2deg); }
+    100% { transform: rotate(-2deg); }
+  }
+
+  .petal {
+    position: absolute;
+    width: 8px;
+    height: 20px;
+    background: yellow;
+    border-radius: 50%;
+    top: -50px;
+    animation: fall linear infinite;
+    z-index: 4;
+    opacity: 0.9;
+  }
+
+  @keyframes fall {
+    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+  }
+
+  /* Nubes */
+  .cloudImage {
+    position: absolute;
+    height: auto;
+    z-index: 3;
+    opacity: 0.85;
+  }
+
+  @keyframes float {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(15px); }
+    100% { transform: translateY(0); }
+  }
+
+  @keyframes floatLeft {
+    0% { transform: translateY(0) scaleX(-1); }
+    50% { transform: translateY(15px) scaleX(-1); }
+    100% { transform: translateY(0) scaleX(-1); }
+  }
+
+  .floatCloud { animation: float 6s ease-in-out infinite; }
+  .leftCloud { animation: floatLeft 6s ease-in-out infinite; }
+
+  .background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  }
+
+  /* Media queries para móvil */
+  @media screen and (max-width: 600px) {
+    .title { font-size: 1.5em; }
+    .subtitle { font-size: 1em; }
+    .bouquet { width: 250px; margin-top: 15px; }
+
+    .cloudImage.top { width: 180px !important; top: 5px !important; }
+    .cloudImage.leftTop { left: 5px !important; transform: scaleX(-1); }
+    .cloudImage.rightTop { right: 5px !important; }
+
+    .cloudImage.bottom { width: 180px !important; top: 50px !important; }
+    .cloudImage.leftBottom { left: -90px !important; transform: scaleX(-1); }
+    .cloudImage.rightBottom { right: -90px !important; }
+  }
+</style>
+</head>
+<body>
+
+<div id="welcomeScreen">
+  <h1>¡Hecho con todo mi corazon!</h1>
+  <button id="enterBtn">Entrar</button>
+</div>
+
+<div class="container">
+  <!-- Música -->
+  <audio id="audioPlayer" loop>
+    <source src="cancion.mp3" type="audio/mpeg">
+    Tu navegador no soporta audio.
+  </audio>
+
+  <!-- Fondo SVG -->
+  <svg class="background" viewBox="0 0 400 400" preserveAspectRatio="xMidYMid slice">
+    <defs>
+      <linearGradient id="cielo" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#FF8C00"/>
+        <stop offset="100%" stop-color="#FFA500"/>
+      </linearGradient>
+      <radialGradient id="montanaColor" cx="50%" cy="50%" r="70%">
+        <stop offset="0%" stop-color="#3b6e3b"/>
+        <stop offset="100%" stop-color="#1e3a1e"/>
+      </radialGradient>
+      <radialGradient id="girasolPetalo" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="gold"/>
+        <stop offset="100%" stop-color="orange"/>
+      </radialGradient>
+    </defs>
+    <rect width="400" height="400" fill="url(#cielo)" />
+    <path d="M0 280 Q100 200 200 280 T400 280 L400 400 L0 400 Z" fill="url(#montanaColor)" />
+    <path d="M0 300 Q120 220 250 300 T400 300 L400 400 L0 400 Z" fill="#245224" opacity="0.8"/>
+    <g id="girasoles">
+      <circle cx="30" cy="360" r="20" fill="url(#girasolPetalo)"/>
+      <circle cx="30" cy="360" r="10" fill="brown"/>
+      <circle cx="70" cy="370" r="22" fill="url(#girasolPetalo)"/>
+      <circle cx="70" cy="370" r="11" fill="brown"/>
+      <circle cx="120" cy="360" r="25" fill="url(#girasolPetalo)"/>
+      <circle cx="120" cy="360" r="12" fill="brown"/>
+      <circle cx="180" cy="370" r="20" fill="url(#girasolPetalo)"/>
+      <circle cx="180" cy="370" r="10" fill="brown"/>
+      <circle cx="250" cy="360" r="25" fill="url(#girasolPetalo)"/>
+      <circle cx="250" cy="360" r="12" fill="brown"/>
+      <circle cx="310" cy="370" r="20" fill="url(#girasolPetalo)"/>
+      <circle cx="310" cy="370" r="10" fill="brown"/>
+    </g>
+  </svg>
+
+  <div class="title">¡Aquí están tus flores amarillas!</div>
+  <div class="subtitle">😘</div>
+  <img src="bouquet.png" class="bouquet" alt="Ramo de girasoles">
+
+  <!-- Nubes arriba -->
+  <img src="nube.png" class="cloudImage leftCloud top leftTop" style="top:10px; left:30px; width:350px;">
+  <img src="nube.png" class="cloudImage floatCloud top rightTop" style="top:10px; right:30px; width:350px;">
+
+  <!-- Nubes abajo -->
+  <img src="nube.png" class="cloudImage leftCloud bottom leftBottom" style="top:40px; left:-150px; width:300px;">
+  <img src="nube.png" class="cloudImage floatCloud bottom rightBottom" style="top:40px; right:-150px; width:300px;">
+</div>
+
+<script>
+const enterBtn = document.getElementById('enterBtn');
+const welcomeScreen = document.getElementById('welcomeScreen');
+const container = document.querySelector('.container');
+const audio = document.getElementById('audioPlayer');
+
+// pétalos cayendo
+for(let i=0; i<30; i++){
+  const petal = document.createElement('div');
+  petal.className = 'petal';
+  petal.style.left = Math.random() * 100 + 'vw';
+  petal.style.animationDuration = 4 + Math.random() * 6 + 's';
+  petal.style.animationDelay = Math.random() * 5 + 's';
+  petal.style.transform = `rotate(${Math.random()*360}deg)`;
+  petal.style.opacity = 0.6 + Math.random()*0.4;
+  container.appendChild(petal);
+}
+
+// Entrar a la animación
+enterBtn.addEventListener('click', () => {
+  welcomeScreen.style.display = 'none';
+  container.style.display = 'block';
+  audio.play().catch(() => {});
+});
+</script>
+
+</body>
+</html>
